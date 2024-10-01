@@ -1,12 +1,12 @@
-<script>
-export default {
-  props: {
-    name: {
-      type: String,
-      required: true,
-    },
+<script setup>
+import { defineProps } from "vue";
+
+defineProps({
+  name: {
+    type: String,
+    default: "Default",
   },
-};
+});
 </script>
 
 <template>
