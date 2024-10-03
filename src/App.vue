@@ -1,9 +1,9 @@
 <script setup>
-// import Navbar from "@/components/Navbar.vue";
-import Sazid from "@/components/Sazid.vue";
+import { RouterView } from 'vue-router';
 </script>
 
 <template>
-  <!-- <Navbar/> -->
-   <Sazid />
+  <div class="w-screen">
+    <RouterView/>
+  </div>
 </template>
