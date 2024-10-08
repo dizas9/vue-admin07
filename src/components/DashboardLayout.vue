@@ -20,7 +20,7 @@ const handleSidebarClose = () => {
 
 <template>
   <nav
-    class="w-full bg-[#2D2F36] h-[10vh]  flex items-center shadow-xl shadow-black lg:border-none border-b"
+    class="w-full bg-[#2D2F36] h-[10vh] flex items-center shadow-xl shadow-black lg:border-none border-b"
   >
     <div class="mx-5">
       <!-- menu icon -->
@@ -37,18 +37,21 @@ const handleSidebarClose = () => {
     <!-- drawer -->
     <div
       :class="{
-        'absolute top-[-10vh] lg:w-[5%] lg:hover:w-[15%] w-full  h-screen bg-[#383B44] z-30 shadow-lg transition-all duration-300 overflow-hidden': true,
+        'absolute top-[-10vh] h-screen bg-[#383B44] z-30 shadow-lg transition-all duration-300 overflow-hidden border': true,
+        'w-[7%] h-screen': md,
         'translate-x-[-100%]': sm && !showNavigation,
-        'translate-x-0': sm && showNavigation,
-        'rounded-tr-3xl rounded-br-3xl':lg
+        'translate-x-0 w-full': sm && showNavigation,
+        'rounded-tr-3xl rounded-br-3xl lg:w-[5%] lg:hover:w-[15%]': lg,
       }"
     >
       <!-- cross icon -->
       <img
         :src="cross"
         alt="cross"
-        class="w-10 cursor-pointer absolute top-5 left-3 z-40"
-        v-if="sm"
+        :class="{
+          'w-10 cursor-pointer absolute top-5 left-3 z-40': true,
+          'hidden': lg || md,
+        }"
         @click="handleSidebarClose"
       />
       <div
@@ -82,16 +85,13 @@ const handleSidebarClose = () => {
             </p>
           </div>
         </div>
-        <SidebarMenu/>
+        <SidebarMenu />
       </div>
     </div>
-    
 
     <!-- children component -->
-     <div class="lg:ml-[5%] px-2">
-        <router-view/>
-     </div>
+    <div class="lg:ml-[5%] px-2">
+      <router-view />
+    </div>
   </div>
 </template>
-
-

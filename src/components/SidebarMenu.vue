@@ -51,7 +51,12 @@ const menuItemClick = (id) => {
         }"
       >
         <img :src="menuItem.src" alt="logo" class="w-7" />
-        <p class="text-main font-semibold lg:hidden group-hover:flex">
+        <p
+          :class="{
+            'text-main font-semibold  group-hover:flex': true,
+            'lg:hidden': lg,
+          }"
+        >
           {{ menuItem.name }}
         </p>
         <span

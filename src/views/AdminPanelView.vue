@@ -3,7 +3,7 @@ import { FetchProduct } from "@/composables/FetchProduct";
 import { useResponsive } from "@/composables/useScreenBreakpoint";
 import { onMounted, ref } from "vue";
 
-const { sm, lg } = useResponsive();
+const { sm, lg, md } = useResponsive();
 const products = ref([]);
 const openIndex = ref(null);
 const isHoverd = ref(false);
@@ -48,12 +48,17 @@ onMounted(() => {
       <p class="my-3 text-main font-bold text-xl">Recent Added Product</p>
       <!-- Newly added poduct -->
       <div
-        class="flex lg:flex-row flex-col flex-wrap justify-center lg:gap-5 gap-2 group"
+        :class="{
+          'flex lg:flex-row  flex-wrap justify-center lg:gap-5 gap-2 group': true,
+          'flex-col': sm,
+          'flex-row items-start': md,
+        }"
       >
         <div
           :class="{
             'rounded relative': true,
             'h-[14rem] w-[14rem]': lg,
+            'h-[8rem] w-[8rem]': md,
             'h-fit w-full': sm,
           }"
           v-for="(product, index) in products"
@@ -89,10 +94,11 @@ onMounted(() => {
           >
             <div
               :class="{
-                'h-fit max-h-[0rem] hidden': true && !sm,
+                'h-fit max-h-[0rem] hidden ': true && !sm,
                 'group-hover:flex group-hover:flex-col max-h-[2rem] transition-all duration-300':
                   isHoverd[index],
                 'w-[16rem] h-fit left-[5.5rem] bottom-[-4rem]  absolute': sm,
+                'bottom-[-2rem] absolute w-[14rem]': lg,
               }"
             >
               <p class="">
@@ -105,7 +111,7 @@ onMounted(() => {
                 {{
                   lg
                     ? product.description.substring(0, 70)
-                    : product.description.substring(0, 70)
+                    : product.description.substring(0, 50)
                 }}
                 ....
               </p>
