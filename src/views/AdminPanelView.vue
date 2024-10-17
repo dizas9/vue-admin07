@@ -1,9 +1,10 @@
 <script setup>
 import { FetchProduct } from "@/composables/FetchProduct";
 import { useResponsive } from "@/composables/useScreenBreakpoint";
+import { useUserStore } from "@/stores/user";
 import { onMounted, ref } from "vue";
 
-const { sm, lg, md } = useResponsive();
+const { sm, lg, md, xl, "2xl": is2XL } = useResponsive();
 const products = ref([]);
 const openIndex = ref(null);
 const isHoverd = ref(false);
@@ -15,6 +16,7 @@ const HoverdIn = (id) => {
 const HoverdOut = (id) => {
   isHoverd.value = [];
 };
+const userStore = useUserStore();
 
 onMounted(() => {
   const getData = async () => {
@@ -30,34 +32,44 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="relative h-[90vh]">
+  <div class="relative h-[90vh] flex flex-col items-center">
     <!-- title -->
     <p
       :class="{
-        'absolute top-[-7vh] right-5': lg,
-        'absolute top-[-7vh] right-8 text-sm': sm,
-        'text-main font-thin text-lg': true,
+        'text-main font-thin text-lg flex justify-end  w-full': true,
       }"
     >
-      Welcome, <span class="text-links font-thin">Alice</span>
+      Welcome,
+      <span class="text-links font-thin">{{
+        userStore.userData?.firstName
+      }}</span>
     </p>
 
     <!-- summary -->
 
-    <div class="h-[90vh] overflow-auto">
-      <p class="my-3 text-main font-bold text-xl">Recent Added Product</p>
+    <div
+      :class="{
+        'h-[90vh] overflow-auto  px-2': true,
+        'w-[90%] min-w-[90%]': is2XL || xl,
+        'w-[90%]': lg,
+        'w-[100%] min-w-[100%]': sm,
+      }"
+    >
+      <p class="my-3 text-main font-bold text-xl pl-7">Recent Added Product</p>
       <!-- Newly added poduct -->
       <div
         :class="{
           'flex lg:flex-row  flex-wrap justify-center lg:gap-5 gap-2 group': true,
           'flex-col': sm,
-          'flex-row items-start': md,
+          'flex-row gap-5 items-start': lg,
         }"
       >
         <div
           :class="{
             'rounded relative': true,
-            'h-[14rem] w-[14rem]': lg,
+            'h-[12rem] w-[12rem]': xl,
+            'w-[18rem] h-[18rem]': is2XL,
+            'w-[8rem] h-[8rem]': lg,
             'h-[8rem] w-[8rem]': md,
             'h-fit w-full': sm,
           }"
@@ -99,6 +111,8 @@ onMounted(() => {
                   isHoverd[index],
                 'w-[16rem] h-fit left-[5.5rem] bottom-[-4rem]  absolute': sm,
                 'bottom-[-2rem] absolute w-[14rem]': lg,
+                'bottom-[-2rem] absolute w-[12rem]': xl,
+                'bottom-[-2rem] absolute w-[18rem]': is2XL,
               }"
             >
               <p class="">

@@ -11,7 +11,14 @@ import arrow_left from "../assets/img/arrow_left.svg";
 import arrow_right from "../assets/img/arrow_right.svg";
 import { useResponsive } from "@/composables/useScreenBreakpoint";
 
-const { sm, lg, md } = useResponsive();
+defineProps({
+  isClicked: {
+    type: Boolean,
+    required: true,
+  },
+});
+
+const { sm, lg, md, xl, "2xl": is2XL } = useResponsive();
 const isClick = ref([]);
 
 const menuItems = ref([
@@ -32,11 +39,12 @@ const menuItemClick = (id) => {
     :class="{
       'w-full max-h-[70%] min-h-[70%] flex flex-col gap-5 my-5': true,
       'absolute top-28': sm,
+      'mt-16': lg,
     }"
   >
     <div
       :class="{
-        'bg-primary flex flex-col gap-2 justify-center max-h-fit min-h-10 o items-center  mx-2 rounded-lg relative ': true,
+        'bg-primary flex flex-col gap-2 justify-center max-h-fit min-h-10 o items-center  mx-2 rounded-lg relative': true,
         '': lg,
         'pl-2 mx-7': sm,
       }"
@@ -46,15 +54,23 @@ const menuItemClick = (id) => {
       <div
         :class="{
           'flex w-full gap-2 cursor-pointer': true,
-          'justify-center group-hover:justify-start group-hover:pl-2': lg,
+          'justify-center group-hover:justify-start group-hover:pl-2':
+            xl || is2XL || !isClicked,
+          'justify-start pl-2': isClicked && lg,
           'my-2': isClick[index],
         }"
       >
-        <img :src="menuItem.src" alt="logo" class="w-7" />
+        <img
+          :src="menuItem.src"
+          alt="logo"
+          :class="{ 'w-7': sm || xl || is2XL, 'w-6': lg || sm }"
+        />
         <p
           :class="{
             'text-main font-semibold  group-hover:flex': true,
-            'lg:hidden': lg,
+            hidden: xl || is2XL || (!isClicked && lg),
+            flex: lg && isClicked,
+            flex: sm,
           }"
         >
           {{ menuItem.name }}
@@ -62,7 +78,9 @@ const menuItemClick = (id) => {
         <span
           :class="{
             'w-full': true,
-            'hidden group-hover:justify-end group-hover:flex pr-2': lg,
+            'hidden group-hover:justify-end group-hover:flex pr-2':
+              xl || is2XL || (!isClicked && lg),
+            'justify-end flex': lg,
             'justify-end flex pr-3': sm,
           }"
           @click="menuItemClick(index)"
@@ -82,7 +100,8 @@ const menuItemClick = (id) => {
       <div
         :class="{
           'h-fit w-full bg-primary group-hover:flex group-hover:flex-col': true,
-          'hidden group-hover:flex group-hover:flex-col': lg,
+          'hidden group-hover:flex group-hover:flex-col':
+            xl || is2XL || (!isClicked && lg),
           'flex flex-col': sm,
         }"
         v-show="isClick[index]"
